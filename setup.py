@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='ling_abstract_classifier',
     version='0.1',
-    description='An abstract classifier for linguistics: given an abstract, it classifies into one of the main areas of theoretical linguistics (phonology, morphology, syntax or semantics), or into a combination of these',
+    description='An abstract classifier for linguistics: given an abstract, it classifies it into one of the main areas of theoretical linguistics (phonology, morphology, syntax or semantics), or into a combination of these',
     author='Carlos Muñoz Pérez',
     author_email='cmunozperez@filo.uba.ar',
     packages=find_packages(),

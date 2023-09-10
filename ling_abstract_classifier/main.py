@@ -1,30 +1,44 @@
 import numpy as np
 import pandas as pd
+from clean_text import lemmatize
 from generate_train_df import generate_train_df 
 from training import train_models
 import joblib
+import argparse
 
+####################################
+####################################
 
-# This gives the option of generating new training data in case you want to use more current abstracts from Lingbuzz
-print('')
-new_train_df = input('A proper training dataset is already included. However, you can generate a new one from data scrapped from Lingbuzz. If you wish to generate a new training file, enter "y", or just enter whatever else to ignore and continue. ')
+# The following gives the option of generating new training data in case you want to use more current abstracts from Lingbuzz
+parser = argparse.ArgumentParser(description='An abstract classifier for linguistics: given an abstract, it classifies it into one of the main areas of theoretical linguistics (phonology, morphology, syntax or semantics), or into a combination of these.')
+parser.add_argument('-newdata', action='store_true', help='Allows to change the training data set by providing new Lingbuzz data.')
+args = parser.parse_args()
 
-if new_train_df.lower() == 'y':
+new_train_df = 'no'
+
+if args.newdata:
     try:
         print('')
-        file_name = input('Introduce the name of the file to generate training data. ')
-        generate_train_df(file_name)
+        new_train_df = input('A proper training dataset is already included. However, you can generate a new one from data scrapped from Lingbuzz in csv format. If you wish to generate a new training file, enter "y". If you just want to ignore this and continue, enter whatever else. ')
+        if new_train_df == 'y':
+            print('')
+            file_name = input('Introduce the name of the file to generate training data (e.g., lingbuzz_002_002022.csv). ')
+            generate_train_df(file_name)
+            new_train_df = 'ready'
     except:
-        print(f'{file_name} is not a valid Lingbuzz database.')
+        print('That is not a valid Lingbuzz database.')
+
+#####################################
 
 # This loads the training data
 df = pd.read_csv('to_train.csv')
 
 
-# This gives the option of training the model with the new training data
-if new_train_df.lower() == 'y':
+# This gives the option of training the model with new training data.
+# It just activates if a new training dataset was generated.
+if new_train_df.lower() == 'ready':
     print('')
-    retrain = input('Do you wish to train the models with the newly provided dataset? If yes, enter "y", or just enter whatever else to ignore and continue. ')
+    retrain = input('Do you wish to train the models with the newly provided dataset? If yes, enter "y". If you just want to ignore this and continue, enter whatever else. ')
     if retrain.lower() == 'y':
         try:
             train_models(df)
@@ -37,18 +51,15 @@ classifier_nb = joblib.load('classifier_nb.pkl')
 classifier_rf = joblib.load('classifier_rf.pkl')
 c_vect = joblib.load('c_vect.pkl')
 
-#%%
-# from sklearn.feature_extraction.text import CountVectorizer
 
-# c_vect = CountVectorizer(stop_words='english', lowercase=True)
-# c_vect.fit_transform(df['context'])
-
-#%%
 #################################################
 # This is the part that loads a new abstract and classifies it.
 
 print('')
 enter_abstract = input('Copy your abstract here: ')
+
+#This lemmatizes the abstract
+enter_abstract = lemmatize(enter_abstract)
 
 # This vectorizes the provided abstract
 abstract_vect = c_vect.transform([enter_abstract])
