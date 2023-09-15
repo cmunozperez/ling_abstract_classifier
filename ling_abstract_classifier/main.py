@@ -5,6 +5,7 @@ from generate_train_df import generate_train_df
 from training import train_models
 import joblib
 import argparse
+import os
 
 ####################################
 ####################################
@@ -30,8 +31,13 @@ if args.newdata:
 
 #####################################
 
+# This is for streamlit to find the files that need to be loaded
+path = os.path.dirname(__file__)
+
 # This loads the training data
-df = pd.read_csv('to_train.csv')
+df = pd.read_csv(path + '/to_train.csv')
+
+#df = pd.read_csv('to_train.csv')
 
 
 # This gives the option of training the model with new training data.
