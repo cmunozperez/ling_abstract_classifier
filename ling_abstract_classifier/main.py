@@ -53,9 +53,9 @@ if new_train_df.lower() == 'ready':
 
 
 #The following loads the models and the vectorization of the abstracts
-classifier_nb = joblib.load('classifier_nb.pkl')
-classifier_rf = joblib.load('classifier_rf.pkl')
-c_vect = joblib.load('c_vect.pkl')
+classifier_nb = joblib.load(path + '/classifier_nb.pkl')
+classifier_rf = joblib.load(path + '/classifier_rf.pkl')
+c_vect = joblib.load(path + '/c_vect.pkl')
 
 
 #################################################
