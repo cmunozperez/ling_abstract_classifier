@@ -53,35 +53,61 @@ c_vect = joblib.load('c_vect.pkl')
 
 
 #################################################
-# This is the part that loads a new abstract and classifies it.
 
-print('')
-enter_abstract = input('Copy your abstract here: ')
+# This defines the function that classifies a given abstract.
+def classify_abstract(abstract = None):
+    '''
 
-#This lemmatizes the abstract
-enter_abstract = lemmatize(enter_abstract)
+    It takes an abstract and returns a classification.
+    
+    ----------
+    abstract (str): An optional abstract. If no abstract is provided, it asks for one.
 
-# This vectorizes the provided abstract
-abstract_vect = c_vect.transform([enter_abstract])
+    Returns
+    -------
+    output (list): A list of linguistic subdisciplines corresponding to the abstract
 
-#This classifies the abstract using the naive Bayes model
-pred_nb = classifier_nb.predict(abstract_vect).toarray()
+    '''
+    
+    # If no abstract is provided, it asks for one
+    if abstract == None:
+        print('')
+        abstract = input('Copy your abstract here: ')
 
-# This classifies the abstract using random forests
-pred_rf = classifier_rf.predict(abstract_vect).toarray()
+    #This lemmatizes the abstract
+    abstract = lemmatize(abstract)
+    
+    # This vectorizes the provided abstract
+    abstract_vect = c_vect.transform([abstract])
+    
+    #This classifies the abstract using the naive Bayes model
+    pred_nb = classifier_nb.predict(abstract_vect).toarray()
+    
+    # This classifies the abstract using random forests
+    pred_rf = classifier_rf.predict(abstract_vect).toarray()
+    
+    # This combines the predictions of both models in such a way that
+    # only those predictions made by both models are valid
+    combined_pred = np.logical_and(pred_nb,pred_rf)
+    
+    cats = ['phonology', 'morphology', 'syntax', 'semantics']
+    output = []
 
-# This combines the predictions of both models
-combined_pred = np.logical_and(pred_nb,pred_rf)
+    for num in range(4):
+        if combined_pred[0, num] == 1:
+            output.append(cats[num])
 
-cats = ['phonology', 'morphology', 'syntax', 'semantics']
-output = []
+    return output
 
-for num in range(4):
-    if combined_pred[0, num] == 1:
-        output.append(cats[num])
-if len(output) == 0:
-    print('')
-    print('The linguistic subdiscipline of this abstract is unknown.')
-else:
-    print('')
-    print('This is an abstract on the following area(s) of linguistics: ' + ', '.join(output))
+
+# And this runs classify_abstract if the module was not imported 
+if __name__ == "__main__":
+    output = classify_abstract()
+
+    # The following simply defines a text output for the script
+    if len(output) == 0:
+        print('')
+        print('The linguistic subdiscipline of this abstract is unknown.')
+    else:
+        print('')
+        print('This is an abstract on the following area(s) of linguistics: ' + ', '.join(output))
