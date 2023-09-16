@@ -25,5 +25,26 @@ python main.py
 Alternatively, you can import the `main.py` module and use the function `classify_abstract`. It takes as its only argument the string you want to classify.
 
 ```
-classify_abstract('Campos (1986) argues that object drop in Spanish exhibits island effects. This claim has remained unchallenged up to date and is largely assumed in the literature. In this squib, I show that this characterization is not empirically correct: given a proper discourse context, null objects can easily appear within a syntactic island in Spanish. This observation constitutes a non-trivial problem for object drop analyses based on movement.')
+classify_abstract('This is an abstract about syntax and morphology.')
 ```
+
+## Retraining the Classifier
+You can retrain the classifier by providing a new dataset from Lingbuzz. To do this, follow these steps:
+
+1. Obtain a new dataset from Lingbuzz by running the [lingbuzz_scraper](https://github.com/cmunozperez/lingbuzz_scraper) tool.
+2. Place the newly generated csv file in the project directory.
+3. Run the script with the -newdata flag:
+
+```
+python main.py -newdata
+```
+
+This will allow you to retrain the classifier using the new dataset.
+
+## Web Application
+Additionally, there is a web app implementation of the classifier through Streamlit. You can access the web app by visiting the following URL:
+
+[Linguistics Abstract classifier](https://lingabstractclass.streamlit.app/)
+
+
+
