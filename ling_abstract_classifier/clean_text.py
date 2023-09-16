@@ -2,6 +2,7 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
+nltk.download('punkt')
 
 def clean_text_stem(string_of_text):
     '''
