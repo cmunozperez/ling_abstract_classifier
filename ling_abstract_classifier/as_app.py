@@ -2,7 +2,8 @@ import streamlit as st
 from main import classify_abstract
 
 # Title for the app
-st.title("Automatic classification of linguistic abstracts")
+#st.title("Automatic classification of linguistic abstracts")
+st.markdown("<h1 style='font-size:24px;'>Linguistics Abstract Classifier</h1>", unsafe_allow_html=True)
 
 st.write("<i>It is very simple: you introduce a linguistics abstract and the app tells you the areas of linguistics related to it.</i>", unsafe_allow_html=True)
 
