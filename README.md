@@ -1,4 +1,4 @@
-# A classifier of abstracts in linguistics
+# Automatic classification of linguistic abstracts
 
 The **ling_abstract_classifier** script takes an abstract in theoretical linguistics and classifies it into one or more of the core linguistic subdisciplines (phonology, morphology, syntax, semantics).
 
